@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -66,5 +68,41 @@ public class BSTTest {
             bst.insert(2500, false);
         });
         assertEquals("El dato que intentas insertar está fuera del rango permitido", e2.getMessage());
+    }
+
+    @Test
+    @DisplayName("test insertar mas de 50 valores de forma recursiva")
+    void testInsertar50ValoresRecursivo() {
+        Random rand = new Random();
+
+        Exception e = assertThrows(DepthException.class, () -> {
+        for (int i = 0; i <= 50; i++) {
+            bst.insert(i, true);
+        }});
+
+        System.out.println(e.getMessage());
+
+        assertEquals(
+                "Intentas insertar en la altura 51, la máxima permitida es 50",
+                e.getMessage()
+        );
+    }
+
+    @Test
+    @DisplayName("test insertar mas de 50 valores de forma no recursiva")
+    void testInsertar50ValoresNoRecursivo() {
+        Random rand = new Random();
+
+        Exception e = assertThrows(DepthException.class, () -> {
+            for (int i = 0; i <= 50; i++) {
+                bst.insert(i, false);
+            }});
+
+        System.out.println(e.getMessage());
+
+        assertEquals(
+                "Intentas insertar en la altura 51, la máxima permitida es 50",
+                e.getMessage()
+        );
     }
 }
