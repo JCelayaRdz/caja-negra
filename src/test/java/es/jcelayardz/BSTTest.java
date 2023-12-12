@@ -2,6 +2,7 @@ package es.jcelayardz;
 
 import com.bst.BST;
 import com.bst.Node;
+import com.exceptions.BetweenLevelException;
 import com.exceptions.DepthException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -327,5 +328,47 @@ public class BSTTest {
             bst.insert(i, true);
         }
         assertEquals(bst.depth(), 50, "La profundidad del arbol deberia de ser 50");
+    }
+
+    /*
+        Clases de equivalencia para getSubTree:
+         - Nodo no nulo y pertence al arbol
+         - Nodo nulo
+         - Nodo no nulo pero no pertence al arbol
+     */
+    @Test
+    @DisplayName("Test getSubTree con clases de equivalencia nodo valido")
+    void testGetSubTreeNodoValido() throws DepthException, BetweenLevelException {
+        bst = new BST(5);
+        bst.insert(8, true);
+        bst.insert(3, true);
+        bst.insert(4, true);
+        bst.insert(1, true);
+        bst.insert(9, true);
+        bst.insert(6, true);
+
+        Node<Integer> nodo = bst.search(8);
+        BST subtree = bst.getSubTree(nodo);
+        ArrayList<Integer> listaEsperada = new ArrayList<>(List.of(6, 8, 9));
+
+        assertEquals(subtree.toList(), listaEsperada);
+    }
+
+    @Test
+    @DisplayName("Test getSubTree con clases de equivalencia nodo nulo")
+    void testGetSubTreeNodoNulo() {
+        bst = new BST<>(10);
+        assertThrows(IllegalArgumentException.class, () -> {
+            bst.getSubTree(null);
+        }, "El nodo no puede ser nulo");
+    }
+
+    @Test
+    @DisplayName("Test getSubTree con clases de equivalencia nodo no existe")
+    void testGetSubTreeNodoNoExiste() {
+        bst = new BST(20);
+        assertThrows(IllegalArgumentException.class, () -> {
+            bst.getSubTree(new Node(0));
+        }, "El nodo no existe en el arbol");
     }
 }
