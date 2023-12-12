@@ -249,4 +249,44 @@ public class BSTTest {
 
         assertEquals(bst.toList(), listaEsperada, "Las listas deberian de ser iguales");
     }
+
+    /*
+        Clases de equivalencia para size:
+           - BST vacio
+           - BST con un solo nodo
+           - BST con varios nodos
+           - BST completo
+     */
+    @Test
+    @DisplayName("Test size con clases de equivalencia y el BST vacio")
+    void testSizeBstVacio() {
+        assertEquals(bst.size(), 0, "El tamaño del arbol deberia de ser 0");
+    }
+
+    @Test
+    @DisplayName("Test size con clases de equivalencia y el BST con un solo nodo")
+    void testSizeBstUnNodo() {
+        bst = new BST(0);
+        assertEquals(bst.size(), 1, "El tamaño del arbol deberia de ser 1");
+    }
+
+    @Test
+    @DisplayName("Test size con clases de equivalencia y el BST con varios nodos")
+    void testSizeBstVariosNodos() throws DepthException {
+        bst = new BST(0);
+
+        bst.insert(1, true);
+        bst.insert(2, true);
+
+        assertEquals(bst.size(), 3, "El tamaño del arbol deberia de ser 3");
+    }
+
+    @Test
+    @DisplayName("Test size con clases de equivalencia y el BST lleno")
+    void testSizeBstLleno() throws DepthException {
+        for (int i = 0; i < 50; i++) {
+            bst.insert(i, true);
+        }
+        assertEquals(bst.size(), 50, "El tamaño del arbol deberia de ser 50");
+    }
 }
