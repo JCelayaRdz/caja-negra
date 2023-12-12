@@ -11,6 +11,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
@@ -170,6 +173,11 @@ public class BSTTest {
         return random.nextInt(4999) - 2500;
     }
 
+    /*
+        Clases de equivalencia para getRoot:
+            - Arbol con elementos
+            - Arbol vacio
+     */
     @Test
     @DisplayName("Test getRoot con clases de equivalencia cuando el arbol esta vacio")
     void testGetRootVacio() {
@@ -180,7 +188,65 @@ public class BSTTest {
     @DisplayName("Test getRoot con clases de equivalencia cuando el arbol NO esta vacio")
     void testGetRootNoVacio() {
         bst = new BST(0);
+        // Porque no funciona con assertEquals?
         assertTrue(bst.getRoot().equals(new Node(0)));
     }
-    
+
+    /*
+        Clases de equivalencia para toList:
+            - BST vacio
+            - BST con un solo nodo
+            - BST con multiples nodos
+            - BST con profundidad máxima
+            - BST con valores en el limite del rango
+     */
+    @Test
+    @DisplayName("Test toList con clases de equivalencia cuando el BST esta vacio")
+    void testToListBstVacio() {
+        assertEquals(bst.toList().size(), 0, "La lista deberia de tener 0 elementos");
+    }
+
+    @Test
+    @DisplayName("Test toList con clases de equivalencia cuando el BST tiene un solo elemento")
+    void testToListBstUno() {
+        bst = new BST(1);
+        ArrayList<Integer> listaEsperada = new ArrayList<>(List.of(1));
+        assertEquals(bst.toList(), listaEsperada, "Las listas deberian ser iguales");
+    }
+
+    @Test
+    @DisplayName("Test toList con clases de equivalencia con varios nodos")
+    void testToListBstVarios() throws DepthException {
+        bst = new BST(0);
+        bst.insert(-1, true);
+        bst.insert(1,true);
+
+        ArrayList<Integer> listaEsperada = new ArrayList<>(List.of(-1, 0, 1));
+
+        assertEquals(bst.toList(), listaEsperada, "Las listas deberian ser iguales");
+    }
+
+    @Test
+    @DisplayName("Test toList con clases de equivalencia y BST lleno")
+    void testToListBstLleno() throws DepthException {
+        ArrayList<Integer> listaEsperada = new ArrayList<>();
+
+        for (int i = 0; i < 50; i++) {
+            bst.insert(i, true);
+            listaEsperada.add(i);
+        }
+
+        assertEquals(bst.toList(), listaEsperada, "Las listas deberian de ser iguales");
+    }
+
+    @Test
+    @DisplayName("Test toList con clases de equivalencia y valores limite")
+    void testToListBstValLimite() throws DepthException {
+        ArrayList<Integer> listaEsperada = new ArrayList<>(List.of(-2500, 2499));
+
+        bst.insert(-2500, true);
+        bst.insert(2499, true);
+
+        assertEquals(bst.toList(), listaEsperada, "Las listas deberian de ser iguales");
+    }
 }
