@@ -1,6 +1,7 @@
 package es.jcelayardz;
 
 import com.bst.BST;
+import com.bst.Node;
 import com.exceptions.DepthException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -169,4 +170,17 @@ public class BSTTest {
         return random.nextInt(4999) - 2500;
     }
 
+    @Test
+    @DisplayName("Test getRoot con clases de equivalencia cuando el arbol esta vacio")
+    void testGetRootVacio() {
+        assertNull(bst.getRoot(), "La raiz deberia ser nula cuando el árbol esta vacio");
+    }
+
+    @Test
+    @DisplayName("Test getRoot con clases de equivalencia cuando el arbol NO esta vacio")
+    void testGetRootNoVacio() {
+        bst = new BST(0);
+        assertTrue(bst.getRoot().equals(new Node(0)));
+    }
+    
 }
