@@ -9,11 +9,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
@@ -338,7 +337,7 @@ public class BSTTest {
      */
     @Test
     @DisplayName("Test getSubTree con clases de equivalencia nodo valido")
-    void testGetSubTreeNodoValido() throws DepthException, BetweenLevelException {
+    void testGetSubTreeNodoValido() throws DepthException {
         bst = new BST(5);
         bst.insert(8, true);
         bst.insert(3, true);
@@ -371,4 +370,66 @@ public class BSTTest {
             bst.getSubTree(new Node(0));
         }, "El nodo no existe en el arbol");
     }
+
+    /*
+        Clases de equivalencia para iterator:
+         - BST vacio
+         - BST con un nodo
+         - BST con varios nodos
+         - BST completo
+     */
+    @Test
+    @DisplayName("Test iterator con clases de equivalencia y BST vacio")
+    void testIteratorBstVacio() {
+        Iterator<Integer> iterator = bst.iterator();
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    @DisplayName("Test iterator con clases de equivalencia y BST con un nodo")
+    void testIteratorBstUnNodo() {
+        bst = new BST(1);
+
+        Iterator<Integer> iterator = bst.iterator();
+
+        assertTrue(iterator.hasNext());
+        assertEquals(iterator.next(), 1);
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    @DisplayName("Test iterator con clases de equivalencia y BST con varios nodos")
+    void testIteratorBstVariosNodos() throws DepthException, BetweenLevelException {
+        bst = new BST(0);
+        bst.insert(-1, true);
+        bst.insert(1, true);
+
+        Iterator<Integer> iterator = bst.iterator();
+
+        assertTrue(iterator.hasNext());
+        assertEquals(iterator.next() , 0);
+        assertTrue(iterator.hasNext());
+        assertEquals(iterator.next(), -1);
+        assertTrue(iterator.hasNext());
+        assertEquals(iterator.next(), 1);
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    @DisplayName("Test iterator con clases de equivalencia BST lleno")
+    void testIteratorBstLleno() throws DepthException {
+        for (int i = 0; i < 50; i++) {
+            bst.insert(i, true);
+        }
+
+        Iterator<Integer> iterator = bst.iterator();
+
+        for (int i = 0; i < 50; i++) {
+            assertTrue(iterator.hasNext());
+            assertEquals(iterator.next(), i);
+        }
+        assertFalse(iterator.hasNext());
+    }
+
+
 }
