@@ -289,4 +289,43 @@ public class BSTTest {
         }
         assertEquals(bst.size(), 50, "El tamaño del arbol deberia de ser 50");
     }
+
+    /*
+        Clases de equivalencia para depth:
+           - BST vacio
+           - BST con un solo nodo
+           - BST con varios nodos
+           - BST completo
+           - ¿BST con mas de 50?
+     */
+    @Test
+    @DisplayName("Test depth con clases de equivalencia y el BST vacio")
+    void testDepthBstVacio() {
+        assertEquals(bst.depth(), 0, "La profundidad del arbol deberia de ser 0");
+    }
+
+    @Test
+    @DisplayName("Test depth con clases de equivalencia y el BST con un solo nodo")
+    void testDetphBstUnNodo() {
+        bst = new BST(1);
+        assertEquals(bst.depth(), 1, "La profundidad del arbol deberia de ser 1");
+    }
+
+    @Test
+    @DisplayName("Test depth con clases de equivalencia y el BST con varios nodos")
+    void testDepthBstVariosNodos() throws DepthException {
+        bst = new BST(0);
+        bst.insert(-1, true);
+        bst.insert(1, true);
+        assertEquals(bst.depth(), 2, "La profundidad del arbol deberia de ser 2");
+    }
+
+    @Test
+    @DisplayName("Test depth con clases de equivalencia y el BST lleno")
+    void testDepthBstLleno() throws DepthException {
+        for (int i = 0; i < 50; i++) {
+            bst.insert(i, true);
+        }
+        assertEquals(bst.depth(), 50, "La profundidad del arbol deberia de ser 50");
+    }
 }
