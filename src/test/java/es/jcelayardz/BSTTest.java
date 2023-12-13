@@ -252,6 +252,47 @@ public class BSTTest {
 
 
     /*
+        Clases de equivalencia para search:
+         - BST vacio con valor no nulo
+         - BST con valores y el nodo esta en el arbol
+         - BST con valores y el nodo no existe
+         - BST con valores y nodo nulo
+     */
+    @Test
+    @DisplayName("Test search con BST vacio y valor no nulo")
+    void testSearchBstVacio() {
+        assertNull(bst.search(10));
+    }
+
+    @Test
+    @DisplayName("Test search BST con valores y el nodo existe")
+    void testSearchNodoExiste() {
+        bst = new BST(0);
+        Node<Integer> nodo = bst.search(0);
+        assertNotNull(nodo);
+        assertEquals(nodo.getContent(), new Node(0).getContent());
+    }
+
+    @Test
+    @DisplayName("Test search BST con valores y el nodo no existe")
+    void testSearchNodoNoExiste() throws DepthException {
+        for (int i = 0; i < 10; i++) {
+            bst.insert(i, true);
+        }
+        assertNull(bst.search(10));
+    }
+
+    @Test
+    @DisplayName("Test search BST con valores y el nodo es nulo")
+    void testSearchNodoNulo() throws DepthException {
+        for (int i = 0; i < 10; i++) {
+            bst.insert(i, true);
+        }
+        // deberiamos de esperar un null? o una expcecion
+        assertNull(bst.search(null));
+    }
+
+    /*
         Clases de equivalencia para getRoot:
             - Arbol con elementos
             - Arbol vacio

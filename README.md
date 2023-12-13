@@ -15,3 +15,6 @@
  * El método `insert` de la clase `BST` siempre dice que <br>
    quieres insertar en la altura 51 a pesar de añadir <br>
    más datos.
+ * El método `search` si le pasas un valor nulo lanza
+   una expceción en lugar de comprobar que el valor no es
+   nulo.
