@@ -173,6 +173,84 @@ public class BSTTest {
         return random.nextInt(4999) - 2500;
     }
 
+    static Stream<Arguments> casosPruebaPrintBetweenLevel() {
+        return Stream.of(
+                Arguments.of(0, 0),
+                Arguments.of(0, 1),
+                Arguments.of(0, 2),
+                Arguments.of(0, 25),
+                Arguments.of(0, 49),
+                Arguments.of(0, 50),
+                Arguments.of(0, 51),
+
+                Arguments.of(1, 0),
+                Arguments.of(1, 1),
+                Arguments.of(1, 2),
+                Arguments.of(1, 25),
+                Arguments.of(1, 49),
+                Arguments.of(1, 50),
+                Arguments.of(1, 51),
+
+                Arguments.of(25, 0),
+                Arguments.of(25, 1),
+                Arguments.of(25, 2),
+                Arguments.of(25, 25),
+                Arguments.of(25, 49),
+                Arguments.of(25, 50),
+                Arguments.of(25, 51),
+
+                Arguments.of(49, 0),
+                Arguments.of(49, 1),
+                Arguments.of(49, 2),
+                Arguments.of(49, 25),
+                Arguments.of(49, 49),
+                Arguments.of(49, 50),
+                Arguments.of(49, 51),
+
+                Arguments.of(50, 0),
+                Arguments.of(50, 1),
+                Arguments.of(50, 2),
+                Arguments.of(50, 25),
+                Arguments.of(50, 49),
+                Arguments.of(50, 50),
+                Arguments.of(50, 51),
+
+                Arguments.of(51, 0),
+                Arguments.of(51, 1),
+                Arguments.of(51, 2),
+                Arguments.of(51, 25),
+                Arguments.of(51, 49),
+                Arguments.of(51, 50),
+                Arguments.of(51, 51)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("casosPruebaPrintBetweenLevel")
+    void testPrintBetweenLevelValorLimite(int a, int b) throws DepthException, BetweenLevelException {
+        List<Integer> listaCompleta = new ArrayList<>();
+
+        for (int i = 0; i < 50; i++) {
+            bst.insert(i, true);
+            listaCompleta.add(i);
+        }
+
+        boolean valoresFueraRango = a < 1 || b < 1 || a > 50 || b > 50;
+        boolean aMayorQueB = a > b;
+
+        if (valoresFueraRango || aMayorQueB) {
+            assertThrows(BetweenLevelException.class, () -> {
+                bst.printBetweenLevel(a, b);
+            });
+        } else {
+            List<Integer> lista = bst.printBetweenLevel(a, b);
+            assertEquals(lista.size(), (b-a)+1);
+            // Porque ArrayList empieza indexar en 0, y el segundo valor es exclusivo
+            assertEquals(lista, listaCompleta.subList(a-1,b));
+        }
+    }
+
+
     /*
         Clases de equivalencia para getRoot:
             - Arbol con elementos
@@ -430,6 +508,5 @@ public class BSTTest {
         }
         assertFalse(iterator.hasNext());
     }
-
 
 }
